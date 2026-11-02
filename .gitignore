@@ -1,0 +1,130 @@
+# Dependencies
+node_modules/
+*/node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build outputs
+build/
+dist/
+*/build/
+*/dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+*.lcov
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+.npm
+.eslintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.node_repl_history
+
+# Output of 'npm pack' & Archives
+*.tgz
+*.zip
+
+# Caches
+.yarn-integrity
+.cache
+.parcel-cache
+.next
+.nuxt
+
+# Storybook
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.ipynb_checkpoints
+.python-version
+Pipfile.lock
+__pypackages__/
+celerybeat-schedule
+celerybeat.pid
+*.sage.py
+.spyderproject
+.spyproject
+.ropeproject
+/site
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+
+# Test files
+test_*.txt
+test_*.pdf
+test_*.mp3
+
+# API keys and sensitive data
+api.json
+firebase-admin-config.js
+
+# Files exceeding GitHub 100MB limit
+ai-medical-chatbot.csv
+*ai-medical-chatbot*.csv
+
+# Un-ignore vital project configurations
+!package.json
+!package-lock.json
+!*.example

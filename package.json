@@ -1,0 +1,35 @@
+{
+  "name": "medimitra",
+  "version": "1.0.0",
+  "description": "MediMitra - AI-Powered Multilingual Medical Chatbot and Telehealth Consultation Platform",
+  "main": "run-all.js",
+  "scripts": {
+    "dev": "npm start",
+    "start": "node run-all.js",
+    "server": "npm --prefix server start",
+    "client": "npm --prefix client start",
+    "did": "npm --prefix did-streaming run dev"
+  },
+  "keywords": [
+    "medimitra",
+    "ai-doctor",
+    "telehealth",
+    "multilingual-nlp",
+    "webrtc-avatar",
+    "clinical-decision-support"
+  ],
+  "authors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "contributors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "author": "Sheikh Mohammad Ashraf (A266)",
+  "license": "MIT"
+}

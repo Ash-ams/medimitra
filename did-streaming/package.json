@@ -1,0 +1,37 @@
+{
+  "name": "medimitra-did-streaming",
+  "version": "1.0.0",
+  "description": "MediMitra D-ID WebRTC Avatar Video Streaming Integration Tier",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "keywords": [
+    "medimitra",
+    "d-id",
+    "webrtc",
+    "avatar-streaming",
+    "video-stream"
+  ],
+  "authors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "contributors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "author": "Sheikh Mohammad Ashraf (A266)",
+  "license": "MIT",
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.104.0"
+  }
+}

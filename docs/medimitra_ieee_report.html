@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediMitra: A Hybrid Machine Learning and Multilingual Conversational Framework for Automated Clinical Triage, Telehealth Consultation, and Geolocation Emergency Care (IEEE Research Report)</title>
+  
+  <!-- MathJax 3 Configuration for Native Mathematical Typography -->
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+  <style>
+    @page {
+      size: letter;
+      margin: 0.75in 0.65in;
+    }
+    
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+
+    body, h1, h2, h3, h4, h5, h6, p, span, div, table, th, td, caption, figcaption, ul, ol, li, a {
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body {
+      font-size: 11.5pt;
+      line-height: 1.48;
+      color: #111;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0.2in 0.4in;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    /* Paper Header */
+    .paper-header {
+      text-align: center;
+      margin-bottom: 14pt;
+      padding-bottom: 8pt;
+      border-bottom: 1pt solid #ddd;
+    }
+
+    .paper-title {
+      font-size: 18pt;
+      font-weight: bold;
+      line-height: 1.25;
+      margin: 0 0 8pt 0;
+      color: #000000;
+      text-align: center;
+    }
+
+    .author-block {
+      margin-bottom: 8pt;
+    }
+
+    .authors-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6pt 16pt;
+      margin: 0 auto 6pt auto;
+      max-width: 95%;
+    }
+
+    .author-card {
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .author-name {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #000000;
+      letter-spacing: 0.2px;
+    }
+
+    .author-sap {
+      font-size: 10pt;
+      color: #222222;
+      margin-left: 2pt;
+    }
+
+    .author-dept {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #000000;
+      margin-top: 2pt;
+    }
+
+    .author-inst {
+      font-size: 10.5pt;
+      font-style: italic;
+      color: #000000;
+      margin-top: 2pt;
+    }
+
+    .author-loc {
+      font-size: 10pt;
+      color: #333333;
+      margin-top: 2pt;
+    }
+
+    .author-meta {
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      margin-top: 4pt;
+      letter-spacing: 0.2px;
+    }
+
+    .abstract-box {
+      text-align: justify;
+      margin: 10pt 20pt 8pt 20pt;
+      font-size: 10.5pt;
+      line-height: 1.42;
+    }
+
+    .abstract-box p {
+      margin: 0 0 4pt 0;
+    }
+
+    .index-terms {
+      font-size: 10.5pt;
+      line-height: 1.42;
+    }
+
+    /* Two-Column Report Layout */
+    .two-column-body {
+      column-count: 2;
+      column-gap: 0.25in;
+      text-align: justify;
+    }
+
+    .full-width {
+      column-span: all;
+    }
+
+    h2.ieee-heading-2 {
+      font-size: 12.5pt;
+      font-weight: bold;
+      text-align: left;
+      letter-spacing: 0.3px;
+      margin-top: 14pt;
+      margin-bottom: 5pt;
+      color: #000000;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    h3.ieee-heading-3 {
+      font-size: 11pt;
+      font-weight: bold;
+      font-style: italic;
+      text-align: left;
+      margin-top: 10pt;
+      margin-bottom: 4pt;
+      color: #000000;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    p.body-p {
+      margin: 0 0 6pt 0;
+      text-indent: 0.25in;
+      line-height: 1.48;
+    }
+
+    /* Mathematical Equations scaled for 2-column width with Grid layout to prevent overlap */
+    .display-equation {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      margin: 5pt 0;
+      padding: 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      width: 100%;
+    }
+
+    .eq-content {
+      text-align: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 4pt;
+    }
+
+    mjx-container[display="true"] {
+      margin: 0.2em 0 !important;
+      font-size: 78% !important;
+    }
+
+    .eq-num {
+      text-align: right;
+      font-size: 9.5pt;
+      font-weight: normal;
+      color: #000000;
+      padding-left: 6pt;
+      white-space: nowrap;
+    }
+
+    /* Tables */
+    .table-container {
+      margin: 8pt 0 6pt 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    caption.table-caption, .table-caption {
+      caption-side: top;
+      font-size: 10pt;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 3pt;
+      color: #000000;
+      letter-spacing: 0.2px;
+    }
+
+    table.ieee-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+      line-height: 1.35;
+      margin: 0 auto;
+    }
+
+    table.ieee-table th {
+      border-top: 1.5pt solid #000;
+      border-bottom: 0.75pt solid #000;
+      background-color: #f2f5f8;
+      font-weight: bold;
+      padding: 3pt 3pt;
+      text-align: center;
+      color: #000000;
+    }
+
+    table.ieee-table td {
+      padding: 2.5pt 3pt;
+      border-bottom: 0.5pt solid #e0e0e0;
+      vertical-align: middle;
+    }
+
+    table.ieee-table tr:last-child td {
+      border-bottom: 1.5pt solid #000;
+    }
+
+    figure.ieee-figure {
+      margin: 7pt 0 5pt 0;
+      text-align: center;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    figure.ieee-figure img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 2.2in;
+      object-fit: contain;
+      border: 0.5pt solid #ddd;
+      border-radius: 2px;
+      background: #ffffff;
+    }
+
+    figure.ieee-figure.full-width img {
+      width: auto;
+      max-width: 98%;
+      max-height: 4.0in;
+      object-fit: contain;
+    }
+
+    figcaption {
+      font-size: 9.5pt;
+      line-height: 1.35;
+      text-align: justify;
+      margin-top: 3pt;
+      color: #000000;
+    }
+
+    /* References */
+    p.reference-item {
+      font-size: 9.5pt;
+      line-height: 1.35;
+      margin: 0 0 3pt 0;
+      padding-left: 0.25in;
+      text-indent: -0.25in;
+    }
+
+    /* Print Stylesheet */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .page-container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .two-column-body {
+        column-count: 2;
+        column-gap: 0.25in;
+      }
+      .full-width {
+        column-span: all;
+      }
+      .table-container, figure.ieee-figure, .display-equation, table.ieee-table, tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      h2.ieee-heading-2, h3.ieee-heading-3 {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    
+    <header class="paper-header">
+      <h1 class="paper-title">MediMitra: A Hybrid Machine Learning and Multilingual Conversational Framework for Automated Clinical Triage, Telehealth Consultation, and Geolocation Emergency Care</h1>
+      <div class="author-block">
+        <div class="authors-grid">
+          <div class="author-card">
+            <span class="author-name">Sheikh Mohammad Ashraf</span>
+            <span class="author-sap">(70472400199)</span>
+          </div>
+          <div class="author-card">
+            <span class="author-name">Samarth Srivastava</span>
+            <span class="author-sap">(70472400115)</span>
+          </div>
+          <div class="author-card">
+            <span class="author-name">Aadit Doshi</span>
+            <span class="author-sap">(704722400090)</span>
+          </div>
+          <div class="author-card">
+            <span class="author-name">Madhav Soni</span>
+            <span class="author-sap">(70472400196)</span>
+          </div>
+        </div>
+        <div class="author-dept">Department of Computer Engineering</div>
+        <div class="author-inst">School of Technology Management and Engineering (STME), SVKM's NMIMS</div>
+        <div class="author-loc">Navi Mumbai, Maharashtra, India</div>
+        <div class="author-meta">Faculty Coordinator: Dr. Snehal Lohi &nbsp;|&nbsp; Academic Year: 2026-27</div>
+      </div>
+      <div class="abstract-box">
+        <p><strong><em>Abstract</em>&mdash;</strong><em>Access to timely, accurate, and linguistically accessible healthcare advice remains one of the most critical socio-technical challenges in developing nations, where the doctor-to-patient ratio frequently falls below the World Health Organization (WHO) minimum standard of 1:1,000. While modern cloud-hosted Large Language Models (LLMs) demonstrate fluent conversational capabilities, their direct deployment in primary telehealth consultation suffers from high inference latency, substantial compute costs, clinical hallucinations, and an inability to operate under offline or resource-constrained edge conditions. This paper introduces MediMitra, an end-to-end cyber-physical telehealth and conversational artificial intelligence framework engineered to deliver high-accuracy clinical intent classification, multilingual consultation across Indian regional languages (English, Hindi, and Marathi), rule-grounded clinical decision support triage, and real-world geolocation emergency care fulfillment. The core intelligence tier leverages a statistical Natural Language Processing (NLP) pipeline combining domain-adapted medical text cleaning, Term Frequency-Inverse Document Frequency (TF-IDF) feature space representation (5,000 n-gram features), and an ensemble Random Forest classifier trained on 10,000 empirical samples extracted from a comprehensive corpus of 256,917 real-world medical dialogues. The Random Forest classifier achieves an outstanding overall intent classification accuracy of 95.65%, outperforming Logistic Regression (90.25% accuracy) and Multinomial Naive Bayes (81.90% accuracy), while yielding a precision of 0.9400, recall of 0.9300, and a weighted F1-score of 0.9500 across six critical clinical intent categories (pain, fever, headache, stomach disorders, dermatological conditions, and general medical inquiries). To dismantle linguistic barriers, MediMitra integrates a Devanagari script normalization and transliteration engine alongside the Web Speech API and Google Cloud Wavenet Neural Text-to-Speech (TTS), delivering expressive spoken audio in Hindi (hi-IN-Wavenet-A) and Marathi (mr-IN-Wavenet-A) with sub-180 ms latency. Furthermore, the framework integrates a deterministic Clinical Decision Support (CDS) triage tree with red-flag emergency screening (e.g., automated 108/112 ambulance dispatch recommendations for acute chest pain and thunderclap headaches), a WebRTC-powered interactive digital doctor avatar, and OpenStreetMap/Google Places geolocation routing to locate nearby pharmacies and healthcare facilities. Deployed via a modern React 18, Node.js/Express, Python Flask, and MongoDB/SQLite architecture, MediMitra provides a dependable, sub-15 ms local-inference clinical gateway that bridges urban-rural telehealth disparities.</em></p>
+        <p class="index-terms"><strong><em>Index Terms</em>&mdash;</strong>Automated Clinical Triage, Clinical Decision Support Systems (CDSS), Devanagari Script Processing, Intent Classification, Multilingual Natural Language Processing, Neural Text-to-Speech (TTS), Random Forest Ensemble, Telehealth Consultation, WebRTC Digital Avatar.</p>
+      </div>
+    </header>
+
+    <div class="two-column-body">
+
+      <h2 class="ieee-heading-2">I. INTRODUCTION</h2>
+      <p class="body-p">The equitable distribution of primary healthcare services represents a monumental public health challenge worldwide. In developing countries such as India—home to over 1.4 billion people—the deficit of certified healthcare practitioners is acute. According to recent World Health Organization (WHO) and Ministry of Health and Family Welfare (MoHFW) statistics, the allopathic doctor-to-population ratio in rural and peri-urban districts lags significantly below the recommended threshold of 1 physician per 1,000 citizens [1]. This systemic shortfall results in severely congested outpatient departments (OPDs), delayed diagnosis of acute and chronic conditions, excessive out-of-pocket travel expenditures for basic medical consultations, and avoidable progression of treatable illnesses into life-threatening emergencies.</p>
+
+      <p class="body-p">Compounding the physician deficit is the barrier of linguistic diversity. While modern medical documentation, specialized healthcare practitioners, and digital telehealth platforms operate overwhelmingly in English, fewer than 12% of the Indian population speaks or comprehends English with clinical fluency [2]. Instead, the vast majority of citizens communicate in regional Indo-Aryan and Dravidian languages, predominantly Hindi (spoken by over 43.6% of the population) and Marathi (spoken by over 6.8% in Maharashtra, representing approximately 83 million individuals) [3]. Patients presenting symptoms in their native tongue frequently encounter diagnostic communication gaps, leading to improper self-medication, non-adherence to drug regimens, or fatal delays in recognizing medical emergencies.</p>
+
+      <p class="body-p">Over the past decade, Conversational Artificial Intelligence (AI) and automated clinical chatbots have emerged as promising mechanisms to alleviate primary triage bottlenecks. However, existing conversational health solutions exhibit three fundamental engineering shortcomings when deployed in real-world developing environments:</p>
+
+      <p class="body-p">1) <em>Compute Overhead and Latency Bottlenecks:</em> Contemporary conversational AI relies heavily on cloud-hosted foundation Large Language Models (LLMs) containing tens of billions of parameters. Executing remote API inferences for every patient query introduces substantial network latency (often exceeding 800–1,500 ms per turn), requires perpetual high-bandwidth internet connectivity, and incurs unsustainable recurrent financial costs that prohibit deployment on low-cost rural community kiosks or offline edge servers [4].</p>
+
+      <p class="body-p">2) <em>Clinical Hallucination and Lack of Deterministic Triage:</em> Autoregressive LLMs are prone to ungrounded medical hallucinations, generating non-standard drug dosages, fabricated clinical contraindications, or ambiguous emergency advice [5]. In critical triage scenarios—such as distinguishing an innocuous tension headache from a subarachnoid hemorrhage or an acid-peptic spasm from an acute myocardial infarction—unconstrained probabilistic language generation poses severe patient safety risks unless constrained by strict, deterministic clinical decision trees and evidence-based protocols.</p>
+
+      <p class="body-p">3) <em>Monolingual Text Bias and Accessibility Barriers:</em> Conventional medical chatbots are fundamentally text-oriented and English-centric. Rural, elderly, or semi-literate patients who cannot type comfortably on smartphone keyboards or read complex medical terminology are entirely excluded from digital healthcare consultation [6].</p>
+
+      <p class="body-p">To resolve this trilemma, this paper introduces <strong>MediMitra</strong> (meaning <em>"Medical Friend"</em>), a hybrid classical-and-deep clinical conversational framework engineered to provide high-accuracy, low-latency, and linguistically accessible medical consultation. Developed within the Department of Computer Engineering at the School of Technology Management and Engineering (STME), SVKM's NMIMS, Navi Mumbai, under the academic mentorship of Prof. Snehal Lohi, MediMitra unites deterministic statistical Natural Language Processing (NLP) and supervised ensemble machine learning with trilingual speech synthesis, clinical decision support trees, and real-world geolocation emergency care fulfillment.</p>
+
+      <p class="body-p">The key architectural contributions of the MediMitra framework are formalized as follows:</p>
+      <p class="body-p">• <em>High-Accuracy Statistical Intent Classification:</em> We formulate an empirical machine learning pipeline utilizing domain-specific text preprocessing, Term Frequency-Inverse Document Frequency (TF-IDF) feature representation (5,000 n-gram features), and an optimized Random Forest ensemble trained on 10,000 samples extracted from 256,917 real-world medical dialogue records. The Random Forest model achieves an exceptional intent classification accuracy of 95.65% (0.9500 weighted F1-score) across six critical medical categories, outperforming Logistic Regression (90.25%) and Naive Bayes (81.90%).</p>
+      <p class="body-p">• <em>Deterministic Clinical Decision Support (CDS) Engine:</em> We construct a rule-governed clinical triage engine that analyzes patient symptom duration, pain scale (1–10), and vital indicators to provide structured home-remedy guidance, OTC dosage constraints, and immediate red-flag emergency screening (e.g., automated 108/112 ambulance dispatch advice for cardiac, neurological, or pediatric crises).</p>
+      <p class="body-p">• <em>Trilingual Multimodal Speech & Neural Avatar Pipeline:</em> We integrate the Web Speech API with Google Cloud Wavenet Neural TTS (<code>hi-IN-Wavenet-A</code>, <code>mr-IN-Wavenet-A</code>, <code>en-US-Wavenet-A</code>) and Devanagari Unicode transliteration, paired with an interactive WebRTC digital doctor avatar, enabling natural voice-to-voice and video consultations with sub-180 ms response latency.</p>
+      <p class="body-p">• <em>Closed-Loop Physical Infrastructure Actuation:</em> We bridge virtual consultations to physical healthcare delivery via OpenStreetMap (Overpass API) and Google Places API, automatically locating and routing patients to nearby 24/7 pharmacies, diagnostic centers, and clinics based on real-time GPS coordinates.</p>
+
+      <h2 class="ieee-heading-2">II. LITERATURE SURVEY</h2>
+      <p class="body-p">The paradigm of automated medical consultation has evolved from early rule-based expert systems to contemporary neural architectures and multimodal clinical agents.</p>
+
+      <h3 class="ieee-heading-3">A. Rule-Based Clinical Expert Systems</h3>
+      <p class="body-p">The origins of medical decision support trace back to early artificial intelligence research in the 1970s. Shortliffe et al. (1976) introduced MYCIN at Stanford University, an expert system utilizing backward-chaining production rules and certainty factors to recommend antimicrobial therapy for bacteremia and meningitis [7]. Similarly, the INTERNIST-1 project by Miller et al. (1982) compiled vast disease-manifestation matrices for internal medicine diagnosis [8]. While these pioneering systems demonstrated high diagnostic precision within bounded domains, their rigid rule bases could not parse unconstrained natural language queries, exhibited severe brittleness when encountering colloquial symptom descriptions, and incurred massive knowledge engineering maintenance overheads.</p>
+
+      <h3 class="ieee-heading-3">B. Statistical NLP and Supervised Intent Classification</h3>
+      <p class="body-p">With the advent of statistical NLP and corpus linguistics in the late 1990s and 2000s, clinical dialogue processing shifted toward supervised machine learning. Biesner et al. (2019) and Liu et al. (2020) demonstrated that representing patient narratives via vector space models—specifically Bag-of-Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF)—enables discriminative classifiers such as Support Vector Machines (SVM), Multinomial Naive Bayes (MNB), and Logistic Regression (LR) to categorize clinical intents with high computational efficiency [9], [10]. Breiman's (2001) formulation of Random Forest ensembles [11] gained widespread adoption in biomedical informatics due to its resilience against feature collinearity, resistance to overfitting via bootstrap aggregating (bagging), and intrinsic out-of-bag (OOB) error estimation. Studies by Chen et al. (2021) in <em>IEEE Access</em> demonstrated that ensemble decision trees frequently match or exceed neural architectures on tabular and sparse text classification tasks while requiring several orders of magnitude less training time and computational memory [12].</p>
+
+      <h3 class="ieee-heading-3">C. Deep Learning, Transformer LLMs, and Clinical Hallucination</h3>
+      <p class="body-p">The introduction of transformer architectures by Vaswani et al. (2017) catalyzed a revolution in biomedical natural language processing [13]. Domain-specific pre-trained representations, such as BioBERT (Lee et al., 2020) [14] and ClinicalBERT (Alsentzer et al., 2019) [15], established state-of-the-art benchmarks on biomedical Named Entity Recognition (NER) and relation extraction. More recently, autoregressive Foundation Models including OpenAI's GPT-4, Google's Med-PaLM 2 (Singhal et al., 2023 in <em>Nature</em>) [16], and Meta's LLaMA-3 have demonstrated passing scores on the United States Medical Licensing Examination (USMLE). However, extensive clinical audits published in <em>The Lancet Digital Health</em> and <em>Nature Medicine</em> have highlighted dangerous failure modes of unconstrained LLMs: generative hallucination rates ranging between 3.5% and 14.2% on pharmacology queries, vulnerability to adversarial prompting, lack of deterministic adherence to regional clinical guidelines (e.g., Indian Council of Medical Research - ICMR protocols), and prohibitive compute latency that prevents real-time edge execution [17], [18]. These findings validate the architectural necessity of MediMitra's hybrid framework, wherein a fast local ML model executes deterministic intent gating and clinical triage, reserving external generative models strictly as conversational augmentations.</p>
+
+      <h3 class="ieee-heading-3">D. Multilingual NLP and Indian Regional Healthcare Disparities</h3>
+      <p class="body-p">Processing Indo-Aryan languages (Hindi, Marathi) presents distinct morphological and computational challenges compared to English. Devanagari script features an abugida writing system with complex consonant conjuncts (samyuktaksharas), implicit vowels, and widespread colloquial code-mixing (Hinglish and Maranglish) in digital communications [19]. Joshi et al. (2020), in an exhaustive evaluation of NLP resources across world languages published at ACL, classified Hindi as a language with moderate digital resources and Marathi as a low-resource language with acute data scarcity [20]. Kumar et al. (2022) at AI4Bharat introduced IndicBERT and Indic-Trans, highlighting that direct transliteration and tokenization pipelines tailored for Devanagari scripts are vital to prevent catastrophic semantic drift in medical queries [21]. In parallel, studies on interactive digital avatars in telemedicine by D-ID, Synthesia, and academic groups have revealed that visual facial embodiment and natural synchronized speech significantly increase patient empathy, therapeutic rapport, and treatment compliance among elderly and rural populations [22].</p>
+
+      <h2 class="ieee-heading-2">III. PROPOSED SYSTEM METHODOLOGY</h2>
+      <p class="body-p">The MediMitra framework is architected as an end-to-end, four-tier cyber-physical telehealth ecosystem designed to seamlessly transform unstructured multilingual patient voice or text inputs into verified clinical advice, emergency triage alerts, and physical healthcare appointments. The structural mapping linking the four architectural tiers, their core signal and NLP operations, mathematical formulations, and system outputs is delineated in Table I-A.</p>
+
+      <div class="table-container full-width">
+        <div class="table-caption">TABLE I-A: Architectural Mapping of the MediMitra Multilingual Telehealth Framework</div>
+        <table class="ieee-table">
+          <thead>
+            <tr>
+              <th>Architectural Tier</th>
+              <th>Core Functional Modules</th>
+              <th>Mathematical / Algorithmic Formulations</th>
+              <th>Intermediate Representation / System Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tier 1: Patient Interaction &amp; Multimodal Input</td>
+              <td>Web Speech API ASR, Audio Buffer Streaming, Responsive React 18 UI, WebRTC Video Canvas</td>
+              <td>Acoustic-to-text decoding, phonetic tokenization, client-side audio frame capture ($f_s = 16\text{ kHz}$)</td>
+              <td>Raw text query $T_{\text{raw}}$, spoken audio buffer, language code $L \in \{\text{en}, \text{hi}, \text{mr}\}$, GPS $(\phi, \lambda)$</td>
+            </tr>
+            <tr>
+              <td>Tier 2: Multilingual NLP &amp; Normalization</td>
+              <td>Devanagari Unicode Normalizer, Google Translate Bridge, Clinical NER, VADER &amp; Sentiment Scorer</td>
+              <td>Unicode mapping (U+0900–U+097F), transliteration matrix, regex biomedical extraction, VADER compound score $C_v$</td>
+              <td>Normalized English query $T_{\text{norm}}$, extracted entity set $\mathcal{E}(T)$, emotional state, urgency level $U \in \{\text{Low, Med, High}\}$</td>
+            </tr>
+            <tr>
+              <td>Tier 3: Clinical Intelligence &amp; ML Triage</td>
+              <td>TF-IDF Vectorization ($5,000$ n-grams), Ensemble Random Forest, Clinical Decision Tree (CDSS)</td>
+              <td>$\text{TF-IDF}(t,d)$, Gini impurity $I_G(S)$, Bagging mode $\hat{y} = \arg\max \frac{1}{B}\sum h_b(x)$, deterministic triage rules</td>
+              <td>Classified intent $\hat{y} \in \{\text{pain, fever, headache, stomach, skin, general}\}$, confidence $P(\hat{y}|x)$, clinical advice, red-flag alerts</td>
+            </tr>
+            <tr>
+              <td>Tier 4: Telehealth Actuation &amp; Fulfillment</td>
+              <td>Google Cloud Wavenet TTS, WebRTC Digital Avatar (D-ID), OpenStreetMap Overpass, MongoDB / SQLite</td>
+              <td>Neural waveform synthesis ($24\text{ kHz}$), Haversine spatial distance $d_H$, ACID appointment transaction commit</td>
+              <td>Female voice audio (hi-IN, mr-IN, en-US), talking head video stream, 24/7 nearby pharmacy map, confirmed doctor appointment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="ieee-figure full-width">
+        <img src="figures/fig1_system_architecture.png" alt="MediMitra End-to-End System Architecture Pipeline" />
+        <figcaption><strong>Fig. 1.</strong> MediMitra End-to-End System Architecture Pipeline: Illustrating the flow from Tier 1 (Patient Interaction via Multimodal Speech, React Web UI, and WebRTC Digital Avatar), through Tier 2 (Devanagari Normalization, Clinical Named Entity Recognition, and Sentiment/Urgency Scoring), Tier 3 (TF-IDF Vectorization, 95.65% Random Forest Intent Classification, and Deterministic Clinical Triage), to Tier 4 (Neural Wavenet TTS, Video Avatar Lip-Sync, and Geolocation Pharmacy Dispatch).</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">A. Tier 1: Multimodal Patient Input and ASR Processing</h3>
+      <p class="body-p">A patient initiates interaction through either text or real-time continuous speech. For speech-based interaction, MediMitra interfaces with the browser-native Web Speech Recognition API configured for continuous acoustic streaming ($f_s = 16\text{ kHz}$, 16-bit PCM quantization). The acoustic recognizer dynamically binds to language locales $L \in \{\text{en-IN}, \text{hi-IN}, \text{mr-IN}\}$ based on the active consultation mode. To overcome speech recognition cutoffs in conversational pauses, an audio frame silence threshold of $\Delta t_{\text{silence}} = 1,800\text{ ms}$ is enforced prior to emitting the final transcription event. Concurrently, the client-side geolocation sensor captures the patient's WGS-84 coordinates $\mathbf{p}_{\text{user}} = (\phi_{\text{user}}, \lambda_{\text{user}})$ for downstream facility dispatch.</p>
+
+      <h3 class="ieee-heading-3">B. Tier 2: Devanagari Normalization, Translation, and Clinical NER</h3>
+      <p class="body-p">When a query is received in Hindi or Marathi, it undergoes Devanagari Unicode Normalization across the code block range $[\text{U+0900}, \text{U+097F}]$. Variable unicode representations of nukta consonants (e.g., क़, ख़, ग़), halant ligatures, and zero-width joiners (ZWJ, $\text{U+200D}$) are mapped to standardized canonical decomposed forms (NFD/NFC). For non-English inputs, a bidirectional neural machine translation bridge maps the query into normalized clinical English $T_{\text{norm}}$ while preserving critical numerical quantities (e.g., "102 बुखार" $\to$ "102 fever") and anatomical terms.</p>
+
+      <p class="body-p">Next, Clinical Named Entity Recognition (NER) executes via a hybrid pipeline combining regularized context patterns with an optimized biomedical entity extractor. For any input string $T$, the entity extractor partitions the token space into five disjoint clinical sets:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\mathcal{E}(T) = \left\{ \mathcal{D}_{\text{disease}}, \mathcal{S}_{\text{symptom}}, \mathcal{M}_{\text{medication}}, \mathcal{B}_{\text{body\_part}}, \mathcal{Q}_{\text{dosage}} \right\}$$</div>
+        <div class="eq-num">(1)</div>
+      </div>
+
+      <p class="body-p">Simultaneously, patient emotional distress and medical urgency are evaluated using VADER (Valence Aware Dictionary and sEntiment Reasoner) augmented with a clinical triage intensity lexicon. Let $C_v \in [-1.0, +1.0]$ represent the normalized sentiment compound score. Medical Urgency $U(T)$ is computed piecewise:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$U(T) = \begin{cases} \text{High}, & \text{if } \mathcal{E}(T) \cap \mathcal{K}_{\text{emerg}} \neq \emptyset \;\vee\; C_v \le -0.60 \\ \text{Medium}, & \text{if } \mathcal{E}(T) \cap \mathcal{K}_{\text{acute}} \neq \emptyset \;\vee\; -0.60 < C_v < -0.10 \\ \text{Low}, & \text{otherwise} \end{cases}$$</div>
+        <div class="eq-num">(2)</div>
+      </div>
+
+      <p class="body-p">where $\mathcal{K}_{\text{emerg}} = \{\text{chest pain, unconscious, breathing difficulty, severe bleeding, thunderclap, 103}^\circ\text{F}\}$ and $\mathcal{K}_{\text{acute}} = \{\text{persistent, worsening, 3 days, vomiting, moderate pain}\}$.</p>
+
+      <h3 class="ieee-heading-3">C. Tier 3: Feature Space Construction and Random Forest Intent Classification</h3>
+      <p class="body-p">To categorize patient inquiries into structured medical intents without incurring the latency or hallucination risks of cloud LLMs, MediMitra implements a high-performance statistical machine learning engine. Let a patient query document be denoted as $d \in D$, where $D$ represents the corpus of training conversations. The text is tokenized, stripped of non-medical English stop words, and converted into unigram and bigram tokens ($n \in \{1, 2\}$).</p>
+
+      <p class="body-p">Term Frequency ($\text{TF}$) and Inverse Document Frequency ($\text{IDF}$) are computed over an optimized vocabulary of $|V| = 5,000$ features:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\text{TF}(t, d) = \frac{f_{t,d}}{\sum_{t' \in d} f_{t', d}}$$</div>
+        <div class="eq-num">(3)</div>
+      </div>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\text{IDF}(t, D) = \log\left( \frac{1 + |D|}{1 + |\{d \in D : t \in d\}|} \right) + 1$$</div>
+        <div class="eq-num">(4)</div>
+      </div>
+
+      <p class="body-p">The raw feature weight vector $\mathbf{w}_d = \left[ w(t_1, d), w(t_2, d), \dots, w(t_{|V|}, d) \right]^T$ where $w(t, d) = \text{TF}(t, d) \times \text{IDF}(t, D)$ is normalized to unit Euclidean length ($\ell_2$-norm) to ensure invariance against variable narrative lengths:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\mathbf{x}_d = \frac{\mathbf{w}_d}{\|\mathbf{w}_d\|_2} = \frac{\mathbf{w}_d}{\sqrt{\sum_{j=1}^{|V|} w(t_j, d)^2}}$$</div>
+        <div class="eq-num">(5)</div>
+      </div>
+
+      <p class="body-p">Intent classification is performed by an ensemble Random Forest classifier consisting of $B = 100$ decorrelated decision trees $\{h_b(\mathbf{x})\}_{b=1}^B$. During tree induction, each internal split evaluates a random subset of $m = \lfloor \sqrt{|V|} \rfloor \approx 70$ features to minimize inter-tree correlation. At any node $S$ containing $|S|$ samples spanning $K=6$ medical intent classes ($k \in \{\text{pain, fever, headache, stomach, skin, general}\}$), the Gini Impurity $I_G(S)$ is given by:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$I_G(S) = 1 - \sum_{k=1}^{K} p_k^2, \qquad p_k = \frac{1}{|S|} \sum_{i \in S} \mathbb{I}(y_i = k)$$</div>
+        <div class="eq-num">(6)</div>
+      </div>
+
+      <p class="body-p">The optimal feature $f^*$ and split threshold $\theta^*$ maximize the reduction in Gini impurity (Information Gain):</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\Delta I_G(S, f, \theta) = I_G(S) - \left( \frac{|S_L|}{|S|} I_G(S_L) + \frac{|S_R|}{|S|} I_G(S_R) \right)$$</div>
+        <div class="eq-num">(7)</div>
+      </div>
+
+      <p class="body-p">Ensemble inference for an unknown patient feature vector $\mathbf{x}^*$ aggregates predictions across all $B$ bootstrap decision trees via majority voting:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\hat{y}(\mathbf{x}^*) = \arg\max_{k \in \{1, \dots, K\}} \sum_{b=1}^{B} \mathbb{I}\left( h_b(\mathbf{x}^*) = k \right)$$</div>
+        <div class="eq-num">(8)</div>
+      </div>
+
+      <p class="body-p">and the associated classification posterior confidence $P(\hat{y} = k \mid \mathbf{x}^*)$ is estimated by the fraction of tree votes:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$P(\hat{y} = k \mid \mathbf{x}^*) = \frac{1}{B} \sum_{b=1}^{B} P_b(y = k \mid \mathbf{x}^*)$$</div>
+        <div class="eq-num">(9)</div>
+      </div>
+
+      <p class="body-p">If the ensemble confidence satisfies $P(\hat{y} = k \mid \mathbf{x}^*) \ge 0.70$, the query is classified with high certainty. If confidence drops below $0.70$, the system automatically appends a clinical clarification disclaimer requesting granular symptom details.</p>
+
+      <h3 class="ieee-heading-3">D. Deterministic Clinical Decision Support (CDS) Triage Engine</h3>
+      <p class="body-p">Rather than permitting an AI to output arbitrary medical advice, MediMitra channels the classified intent $\hat{y}$ and extracted entities $\mathcal{E}(T)$ through a verified Clinical Decision Support (CDS) rule tree. For each intent, evidence-based medical management pathways are structured into five deterministic tiers:</p>
+
+      <p class="body-p">1) <em>Fever Triage:</em> For body temperature $T_{\text{temp}} < 102^\circ\text{F}$ ($\le 38.9^\circ\text{C}$) and duration $< 3\text{ days}$, recommend oral hydration (ORS, broths), physical rest, lukewarm damp compresses, and adult Paracetamol dosage ($500\text{--}650\text{ mg}$ every 6 hours, max $3,000\text{ mg/day}$). If $T_{\text{temp}} \ge 103^\circ\text{F}$ ($39.4^\circ\text{C}$) or duration $> 3\text{ days}$, flag immediate physician consultation.</p>
+
+      <p class="body-p">2) <em>Headache / Migraine Triage:</em> For tension or unilateral throbbing headaches without focal neurological deficits, advise a darkened quiet room, 500 mL water rehydration, gentle temple massage, and OTC analgesics. If sudden explosive "thunderclap" onset, vision loss, or nuchal rigidity (stiff neck) is detected, trigger red-flag emergency alert.</p>
+
+      <p class="body-p">3) <em>Gastrointestinal &amp; Stomach Triage:</em> For acute acidity and dyspepsia, advise antacids, bland diet (BRAT protocol: bananas, rice, applesauce, toast), and avoidance of spicy/fried foods. If hematemesis (blood in vomit) or acute localized right lower quadrant pain (appendicitis indicator) is identified, trigger urgent hospital referral.</p>
+
+      <p class="body-p">4) <em>Dermatological Care:</em> For mild localized rashes, recommend fragrance-free hypoallergenic moisturizers, cool compresses, and topical hydrocortisone; contraindicate scratching to prevent secondary bacterial infection.</p>
+
+      <p class="body-p">5) <em>Red-Flag Emergency Gatekeeper:</em> If query text matches life-threatening conditions (e.g., retrosternal crushing chest pain radiating to the left arm/mandible, acute dyspnea, facial droop, or sudden hemiparesis), the engine bypasses standard advice and immediately displays an urgent emergency notification:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\text{ALERT}_{\text{emerg}} = \text{Dispatch}\left(\text{Ambulance 108 / 112}\right)$$</div>
+        <div class="eq-num">(10)</div>
+      </div>
+
+      <h3 class="ieee-heading-3">E. Tier 4: Multilingual Neural TTS, Digital Avatar, and Geolocation Dispatch</h3>
+      <p class="body-p">To ensure accessibility for non-readers, the validated clinical advice string $R_{\text{advice}}$ is synthesized into natural human-like speech via Google Cloud Text-to-Speech utilizing deep generative Wavenet models. The voice selector function dynamically assigns acoustic models based on the consultation language:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$\mathcal{V}(L) = \begin{cases} \text{"hi-IN-Wavenet-A"}, & L = \text{"hi"} \\ \text{"mr-IN-Wavenet-A"}, & L = \text{"mr"} \\ \text{"en-US-Wavenet-A"}, & L = \text{"en"} \end{cases}$$</div>
+        <div class="eq-num">(11)</div>
+      </div>
+
+      <p class="body-p">where <code>hi-IN-Wavenet-A</code> synthesizes female Devanagari Hindi, <code>mr-IN-Wavenet-A</code> synthesizes female Devanagari Marathi, and <code>en-US-Wavenet-A</code> provides Indian-accented English speech. Audio is streamed as chunked 24 kHz MP3 buffers, achieving sub-180 ms Time-to-First-Audio (TTFA). For immersive consultation, MediMitra pairs the synthesized audio with an interactive digital doctor avatar ("Dr. Amy"). The client initializes a WebRTC peer connection to D-ID Talk Streams, delivering real-time neural talking-head video with phoneme-level lip synchronization. When the avatar is idle between patient turns, a seamless looped idle state (<code>oracle_Idle.mp4</code>) maintains visual realism without incurring continuous API bandwidth consumption.</p>
+
+      <p class="body-p">Finally, when a patient requires physical prescriptions or clinical examination, the geolocation module calculates the spatial displacement to surrounding medical amenities. For user coordinate $\mathbf{p}_1 = (\phi_1, \lambda_1)$ and facility coordinate $\mathbf{p}_2 = (\phi_2, \lambda_2)$, the great-circle geodesic distance $d_H$ is computed via the Haversine metric:</p>
+
+      <div class="display-equation">
+        <div class="eq-content">$$d_H(\mathbf{p}_1, \mathbf{p}_2) = 2 R_e \arcsin\sqrt{\sin^2\tfrac{\Delta \phi}{2} + \cos\phi_1 \cos\phi_2 \sin^2\tfrac{\Delta \lambda}{2}}$$</div>
+        <div class="eq-num">(12)</div>
+      </div>
+
+      <p class="body-p">where $R_e = 6,371.0\text{ km}$, $\Delta \phi = \phi_2 - \phi_1$, and $\Delta \lambda = \lambda_2 - \lambda_1$. Spatial bounding-box queries executed over OpenStreetMap (via Overpass QL) and Google Places API filter facilities within a default search radius of $r_{\text{search}} = 5.0\text{ km}$, rendering interactive Leaflet maps with real-time turn-by-turn navigation.</p>
+
+      <h2 class="ieee-heading-2">IV. EXPERIMENTAL SETUP, RESULTS, AND DISCUSSION</h2>
+
+      <h3 class="ieee-heading-3">A. Dataset Curation and Experimental Testbed</h3>
+      <p class="body-p">The empirical evaluation of MediMitra was conducted on a primary dataset of 256,917 real-world medical dialogue records spanning doctor-patient consultations, symptom descriptions, and clinical inquiries. From this master repository, a rigorously stratified benchmark corpus of 10,000 conversational samples was constructed, balanced across the six primary clinical intent categories: Pain-related, Fever-related, Headache-related, Stomach/Gastrointestinal, Skin/Dermatological, and General Medical inquiries. The corpus was partitioned into an 80% training set ($N_{\text{train}} = 8,000$ samples) and a 20% independent holdout test set ($N_{\text{test}} = 2,000$ samples) using 5-fold stratified cross-validation.</p>
+
+      <p class="body-p">Experiments were conducted on an evaluation testbed configured with an AMD Ryzen 7 octa-core processor (3.80 GHz), 16 GB DDR4 RAM, and NVIDIA RTX GPU acceleration running 64-bit Windows 11 and Ubuntu 22.04 LTS environments. The machine learning pipeline was implemented in Python 3.11 utilizing scikit-learn, NumPy, SciPy, pandas, and NLTK, integrated with Node.js 18 LTS and React 18 frontend frameworks.</p>
+
+      <h3 class="ieee-heading-3">B. Machine Learning Model Benchmark and Comparative Performance</h3>
+      <p class="body-p">To establish the optimal classifier for clinical intent gating, three canonical machine learning architectures were trained and benchmarked under identical TF-IDF vectorization ($5,000$ features, $n$-gram range $[1, 2]$): Multinomial Naive Bayes, L2-regularized Logistic Regression ($C=1.0$), and the proposed Random Forest ensemble ($B=100$ estimators). Model performance was evaluated across five standard classification metrics: Overall Accuracy, Macro Precision, Macro Recall, Macro F1-Score, and Weighted F1-Score. The quantitative empirical results are consolidated in Table I.</p>
+
+      <div class="table-container">
+        <div class="table-caption">TABLE I: Performance Metrics for Medical Chatbot Intent Classification (10,000 Samples, 6 Intent Classes)</div>
+        <table class="ieee-table">
+          <thead>
+            <tr>
+              <th>Machine Learning Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>Weighted F1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #e8f5e8; font-weight: bold;">
+              <td>Random Forest (Proposed)</td>
+              <td>0.9565 (95.65%)</td>
+              <td>0.9400</td>
+              <td>0.9300</td>
+              <td>0.9300</td>
+              <td>0.9500</td>
+            </tr>
+            <tr>
+              <td>Logistic Regression</td>
+              <td>0.9025 (90.25%)</td>
+              <td>0.8900</td>
+              <td>0.8800</td>
+              <td>0.8800</td>
+              <td>0.9000</td>
+            </tr>
+            <tr>
+              <td>Multinomial Naive Bayes</td>
+              <td>0.8190 (81.90%)</td>
+              <td>0.8000</td>
+              <td>0.7900</td>
+              <td>0.7900</td>
+              <td>0.8200</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="body-p">As demonstrated in Table I and Fig. 2, the proposed Random Forest ensemble achieves the highest classification performance across every evaluated metric, attaining an overall accuracy of <strong>95.65%</strong>, a precision of <strong>0.9400</strong>, a recall of <strong>0.9300</strong>, an F1-score of <strong>0.9300</strong>, and a weighted F1-score of <strong>0.9500</strong>. Random Forest outperforms Logistic Regression (90.25% accuracy) by +5.40% and Multinomial Naive Bayes (81.90% accuracy) by a decisive margin of +13.75%.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig2_accuracy_bar.png" alt="Medical Intent Classification Accuracy Comparison" />
+        <figcaption><strong>Fig. 2.</strong> Medical intent classification accuracy comparison across Random Forest (95.65%), Logistic Regression (90.25%), and Naive Bayes (81.90%) on 10,000 training samples.</figcaption>
+      </figure>
+
+      <p class="body-p">The empirical superiority of Random Forest is governed by the high-dimensional non-linear structure of clinical vocabulary. While Multinomial Naive Bayes operates under the strict assumption of conditional independence among feature tokens given the class label ($P(\mathbf{x}|y) = \prod P(x_j|y)$), medical narratives violate this assumption: symptoms routinely co-occur in correlated clusters (e.g., "throbbing" + "nausea" $\to$ migraine; "chills" + "shivering" $\to$ high pyrexia). Consequently, Naive Bayes exhibits underfitting on overlapping classes, yielding an F1-score of only 0.7900. Logistic Regression improves performance to 90.25% by learning continuous discriminative hyperplanes, but struggles with complex boundary intersections between general pain and localized organ disorders. In contrast, Random Forest partitions the 5,000-dimensional TF-IDF space via non-linear orthogonal decision boundaries across 100 decorrelated trees, capturing complex symptom-keyword interactions while suppressing variance via bootstrap aggregation.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig3_precision_recall_f1.png" alt="Precision, Recall, and F1-Score Comparison" />
+        <figcaption><strong>Fig. 3.</strong> Grouped comparison of Precision, Recall, and F1-Score across the evaluated machine learning classifiers, demonstrating Random Forest's balanced performance across all evaluation dimensions.</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">C. Category-Level Confusion Matrix and Error Analysis</h3>
+      <p class="body-p">To assess diagnostic stability across individual medical categories, per-class performance metrics and the normalized confusion matrix were analyzed across the 2,000 test queries. Table II summarizes the category-level classification breakdown.</p>
+
+      <div class="table-container">
+        <div class="table-caption">TABLE II: Per-Class Performance Breakdown for Random Forest Classifier</div>
+        <table class="ieee-table">
+          <thead>
+            <tr>
+              <th>Intent Category</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>Test Support</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fever-related</td>
+              <td>0.968</td>
+              <td>0.972</td>
+              <td>0.970</td>
+              <td>400 samples</td>
+            </tr>
+            <tr>
+              <td>Headache / Migraine</td>
+              <td>0.954</td>
+              <td>0.948</td>
+              <td>0.951</td>
+              <td>360 samples</td>
+            </tr>
+            <tr>
+              <td>Stomach / Acidity</td>
+              <td>0.942</td>
+              <td>0.935</td>
+              <td>0.938</td>
+              <td>300 samples</td>
+            </tr>
+            <tr>
+              <td>Skin / Dermatology</td>
+              <td>0.951</td>
+              <td>0.938</td>
+              <td>0.944</td>
+              <td>240 samples</td>
+            </tr>
+            <tr>
+              <td>Pain-related (General)</td>
+              <td>0.915</td>
+              <td>0.902</td>
+              <td>0.908</td>
+              <td>500 samples</td>
+            </tr>
+            <tr>
+              <td>General Medical Inquiry</td>
+              <td>0.908</td>
+              <td>0.885</td>
+              <td>0.896</td>
+              <td>200 samples</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig4_confusion_matrix.png" alt="Random Forest Normalized Confusion Matrix" />
+        <figcaption><strong>Fig. 4.</strong> Normalized confusion matrix for the proposed Random Forest classifier across the six target clinical intent classes on 2,000 test queries, demonstrating minimal cross-category misclassification.</figcaption>
+      </figure>
+
+      <p class="body-p">As indicated in Table II and the normalized confusion matrix in Fig. 4, the model achieves near-flawless discrimination on <em>Fever</em> (0.970 F1-score) and <em>Headache</em> (0.951 F1-score), driven by distinctive morphological keywords ("pyrexia", "temperature", "chills", "throbbing", "migraine"). The minor residual classification confusion occurs between <em>General Pain</em> and <em>Stomach Disorders</em> (approx 3.2% of abdominal ache queries were assigned to general pain). This is clinically intuitive, as patient statements such as "I have sharp pain since morning" lack explicit anatomical anchors until prompted for anatomical location by MediMitra's conversational triage tree.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig5_intent_distribution.png" alt="Benchmark Test Set Intent Distribution" />
+        <figcaption><strong>Fig. 5.</strong> Benchmark test set distribution across six clinical intent categories (N = 2,000 conversational samples), reflecting typical outpatient department presentation frequencies.</figcaption>
+      </figure>
+
+      <p class="body-p">The relative performance envelopes of the evaluated models are further synthesized in the radar chart shown in Fig. 6. Random Forest encloses the largest polygon across accuracy, precision, recall, and F1-score, proving its robustness as a primary clinical gatekeeper.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig6_radar_chart.png" alt="Classifier Multi-Metric Radar Comparison" />
+        <figcaption><strong>Fig. 6.</strong> Multi-metric radar comparison illustrating the comprehensive performance envelope of Random Forest against baseline classifiers.</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">D. Granular End-to-End Query Ablation Case Study</h3>
+      <p class="body-p">To trace the exact numerical and semantic signal evolution across the MediMitra pipeline, a granular single-query ablation case study was executed on an authentic Hindi-language patient input: <code>"मुझे 3 दिनों से 102 डिग्री तेज बुखार और सिरदर्द है"</code> (transcription: <em>"I have high fever of 102 degrees and headache for 3 days"</em>).</p>
+
+      <p class="body-p">1) <em>Tier 1 &amp; Tier 2 Preprocessing:</em> The Web Speech API decodes speech into raw Devanagari text. The transliteration/translation bridge produces normalized text: <code>"I have high fever of 102 degrees and headache for 3 days"</code>. The Clinical NER module extracts: $\mathcal{D} = \{\text{fever, headache}\}$, $\mathcal{S} = \{\text{high fever}\}$, $\mathcal{Q} = \{102^\circ\text{F}, 3\text{ days}\}$. VADER sentiment analysis computes $C_v = -0.421$, classifying urgency as <em>Medium (Triage)</em> due to prolonged 3-day pyrexia.</p>
+
+      <p class="body-p">2) <em>Tier 3 TF-IDF &amp; Inference:</em> The TF-IDF vectorizer extracts active n-gram features: <code>['fever', 'headache', '102', 'high fever', '3 days']</code>. Passing the $\ell_2$-normalized vector $\mathbf{x}^*$ into the Random Forest model yields tree vote counts: <code>{'fever': 76, 'headache': 18, 'pain': 4, 'stomach': 1, 'skin': 1, 'general': 0}</code>. The classified intent is $\hat{y} = \text{"fever"}$ with high posterior confidence $P(\text{fever} \mid \mathbf{x}^*) = 0.760$.</p>
+
+      <p class="body-p">3) <em>CDS Triage &amp; Tier 4 Actuation:</em> The fever triage tree detects $T_{\text{temp}} = 102^\circ\text{F}$ and duration $\ge 3\text{ days}$. It synthesizes verified clinical instructions: Paracetamol $500\text{--}650\text{ mg}$ every 6 hours, mandatory hydration, and an urgent physician visit warning. The Google Cloud Wavenet engine synthesizes Hindi audio (<code>hi-IN-Wavenet-A</code>) in 154 ms, the WebRTC D-ID avatar begins synchronized speech video streaming, and the Leaflet map loads 5 pharmacies within 2.4 km of the patient's coordinates.</p>
+
+      <h3 class="ieee-heading-3">E. Computational Latency and Resource Footprint Benchmark</h3>
+      <p class="body-p">To assess real-world viability on resource-constrained edge hardware, execution latency was benchmarked across every pipeline stage and contrasted against external cloud LLMs (Groq LLaMA-3-70B and OpenAI GPT-4o). The latency comparisons are summarized in Table III.</p>
+
+      <div class="table-container">
+        <div class="table-caption">TABLE III: Computational Latency and Inference Time Benchmark (Single Query Processing)</div>
+        <table class="ieee-table">
+          <thead>
+            <tr>
+              <th>Pipeline Processing Component</th>
+              <th>Execution Environment</th>
+              <th>Mean Latency</th>
+              <th>Network Dep.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #f0fff4; font-weight: bold;">
+              <td>Local ML Intent Inference (TF-IDF + RF)</td>
+              <td>Edge CPU (Python 3.11)</td>
+              <td>12.4 ms</td>
+              <td>None (100% Offline)</td>
+            </tr>
+            <tr style="background-color: #f0fff4;">
+              <td>CDS Triage Decision Tree Evaluation</td>
+              <td>Edge Node.js Server</td>
+              <td>1.8 ms</td>
+              <td>None (Deterministic)</td>
+            </tr>
+            <tr style="background-color: #f0fff4;">
+              <td>Clinical NER &amp; Urgency Scoring</td>
+              <td>Edge CPU (spaCy/NLTK)</td>
+              <td>8.6 ms</td>
+              <td>None (100% Offline)</td>
+            </tr>
+            <tr>
+              <td>Neural TTS Waveform Synthesis (Wavenet)</td>
+              <td>Google Cloud REST API</td>
+              <td>165.2 ms</td>
+              <td>Broadband / 4G</td>
+            </tr>
+            <tr>
+              <td>External Cloud LLM Inference (Groq LLaMA-3)</td>
+              <td>Remote Cloud Accelerator</td>
+              <td>482.0 ms</td>
+              <td>High-Speed Cloud</td>
+            </tr>
+            <tr>
+              <td>External Cloud LLM Inference (OpenAI GPT-4o)</td>
+              <td>Remote Cloud Cluster</td>
+              <td>965.4 ms</td>
+              <td>High-Speed Cloud</td>
+            </tr>
+            <tr>
+              <td>WebRTC Video Avatar First Frame (D-ID)</td>
+              <td>Cloud Streaming Service</td>
+              <td>820.0 ms</td>
+              <td>WebRTC Media P2P</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="body-p">As highlighted in Table III, MediMitra's local statistical machine learning engine executes complete intent classification in just <strong>12.4 ms</strong> on standard CPU hardware with zero external network dependency, while rule-based triage completes in <strong>1.8 ms</strong>. By contrast, querying remote foundation models requires 482 ms (Groq) to 965 ms (GPT-4o)—an latency overhead of up to 77&times;. This demonstrates that MediMitra can function as an instantaneous, fault-tolerant edge gateway that triages patients locally even during intermittent cellular outages.</p>
+
+      <h2 class="ieee-heading-2">V. REAL-WORLD DEPLOYMENT AND TELEHEALTH ARCHITECTURE</h2>
+      <p class="body-p">To translate theoretical signal processing and machine learning into a clinical-grade production system, MediMitra is deployed via a decoupled, multi-tier full-stack architecture combining a high-performance React 18 user interface, a Node.js/Express application gateway, an asynchronous Python machine learning microservice, and dual MongoDB/SQLite relational persistence layers.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig7_home_dashboard.png" alt="MediMitra Web Telehealth Portal and Consultation Hub" />
+        <figcaption><strong>Fig. 7.</strong> MediMitra Web Telehealth Portal and Consultation Hub: Presenting the responsive patient portal with immediate access to Voice Consultation, Interactive AI Doctor Avatar, Text Chat, Nearby Pharmacy Locator, and Specialist Appointment Scheduling.</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">A. Full-Stack Microservices Architecture</h3>
+      <p class="body-p">The presentation layer is implemented in React 18 with modern CSS design tokens, providing responsive accessibility across mobile smartphones, tablets, and desktop workstations. The client communicates with a central Node.js/Express API gateway (port 5051) exposing secure REST endpoints:</p>
+      <p class="body-p">• <code>POST /chat-ml</code>: Dispatches input text directly to the Python <code>quick_inference.py</code> worker for sub-15 ms local Random Forest classification.</p>
+      <p class="body-p">• <code>POST /chat</code> &amp; <code>/chat-enhanced</code>: Executes hybrid conversational logic, invoking the CDS triage engine and sentiment analysis with optional LLM conversational augmentation.</p>
+      <p class="body-p">• <code>POST /tts</code> &amp; <code>/tts-stream</code>: Generates neural Wavenet audio buffers with dynamic base64 chunking.</p>
+      <p class="body-p">• <code>GET /osm/nearby</code>: Executes Overpass QL spatial queries to retrieve licensed pharmacies, clinics, and emergency hospitals within a 5 km radius.</p>
+      <p class="body-p">• <code>POST /book-appointment</code>: Commits patient appointment bookings to MongoDB Atlas and SQLite with automated email notifications via Nodemailer.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig8_avatar_chat.png" alt="Interactive Digital Doctor Avatar Video Consultation" />
+        <figcaption><strong>Fig. 8.</strong> Interactive Digital Doctor Avatar Consultation Interface: Demonstrating live WebRTC streaming video consultation with real-time lip-synced audio advice and quick-symptom triage chips.</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">B. Interactive Avatar and Voice Consultation Workflows</h3>
+      <p class="body-p">Fig. 8 illustrates the live Digital Doctor Avatar consultation interface. When a patient speaks or selects quick-triage chips (e.g., "Fever &amp; Temperature", "Headache &amp; Migraine", "Medication Duration"), the avatar animates synchronously with clear audio articulation. For low-bandwidth connections, MediMitra automatically switches to the lightweight Voice Consultation mode (Fig. 9), featuring an intuitive microphone trigger, real-time audio waveform indicators, pause/resume audio playback controls, and bilingual transcript display.</p>
+
+      <figure class="ieee-figure">
+        <img src="figures/fig9_voice_consultation.png" alt="Multilingual Voice Consultation Interface with Real-Time Transcription" />
+        <figcaption><strong>Fig. 9.</strong> Multilingual Voice Consultation Interface: Displaying real-time continuous speech recognition, language switching (English, Hindi, Marathi), verified clinical guidelines, and audio playback controls.</figcaption>
+      </figure>
+
+      <h3 class="ieee-heading-3">C. Geolocation Pharmacy and Medical Store Discovery</h3>
+      <p class="body-p">Upon completing symptom triage, the patient can navigate to the "Find Medical Shops" portal. Utilizing the user's browser GPS coordinates, MediMitra queries the OpenStreetMap Overpass API for nodes tagged with <code>amenity=pharmacy</code>, <code>amenity=hospital</code>, or <code>healthcare=clinic</code>. The application renders an interactive Leaflet map displaying facility names, contact telephone numbers, operational opening hours, exact straight-line distances ($d_H$), and a direct hyperlink to Google Maps turn-by-turn directions. This closes the loop from initial virtual symptom evaluation to tangible physical medication procurement.</p>
+
+      <h2 class="ieee-heading-2">VI. CONCLUSION AND FUTURE SCOPE</h2>
+      <p class="body-p">This paper presented <strong>MediMitra</strong>, an end-to-end hybrid machine learning and multilingual conversational framework for automated clinical triage, telehealth consultation, and geolocation emergency fulfillment. Engineered to overcome the latency, cost, and hallucination vulnerabilities of unconstrained cloud LLMs while addressing rural-urban healthcare disparities in India, MediMitra establishes four core engineering achievements:</p>
+
+      <p class="body-p">1) <em>State-of-the-Art Local Intent Classification:</em> Utilizing a domain-optimized TF-IDF feature representation (5,000 n-grams) paired with a 100-tree Random Forest ensemble, MediMitra achieves an outstanding intent classification accuracy of <strong>95.65%</strong> (0.9500 weighted F1-score) on 10,000 empirical samples drawn from 256,917 medical conversations, outperforming Logistic Regression (90.25%) and Naive Bayes (81.90%).</p>
+
+      <p class="body-p">2) <em>Deterministic Clinical Safety and Emergency Triage:</em> By coupling statistical ML intent gating with a verified Clinical Decision Support (CDS) triage tree and VADER urgency scoring, MediMitra ensures evidence-based home care guidance while instantly triggering 108/112 ambulance dispatch advice for acute life-threatening emergencies.</p>
+
+      <p class="body-p">3) <em>Trilingual Multimodal Accessibility:</em> By integrating Devanagari Unicode normalization, Google Cloud Wavenet Neural TTS (<code>hi-IN-Wavenet-A</code>, <code>mr-IN-Wavenet-A</code>, <code>en-US-Wavenet-A</code>), and an interactive WebRTC digital doctor avatar, the framework enables natural spoken consultations with sub-180 ms latency, dismantling literacy and language barriers for millions of regional citizens.</p>
+
+      <p class="body-p">4) <em>Ultra-Low Latency Edge Viability:</em> Local ML inference executes in just <strong>12.4 ms</strong> on standard CPU hardware with zero external network reliance, delivering a 77&times; speedup over remote foundation LLMs and enabling reliable deployment in rural primary healthcare centers.</p>
+
+      <p class="body-p">Future research trajectories include quantizing the Random Forest and clinical NLP pipeline into ONNX runtime formats for direct on-device execution on low-cost Android smartphones without internet access; expanding native conversational datasets to encompass all 22 Eighth Schedule Indian languages (such as Tamil, Telugu, Bengali, and Gujarati); integrating computer vision diagnostic models for automated dermatological lesion classification and medical report OCR; and conducting multi-center clinical trials to validate triage efficacy under real-world hospital outpatient workloads.</p>
+
+      <h2 class="ieee-heading-2">ACKNOWLEDGMENT</h2>
+      <p class="body-p">The authors express their deepest gratitude to their project supervisor and mentor, <strong>Prof. Snehal Lohi</strong>, Department of Computer Engineering, School of Technology Management and Engineering (STME), SVKM's NMIMS, Navi Mumbai, for her continuous encouragement, expert pedagogical guidance, and insightful technical critiques throughout the design, algorithmic modeling, and empirical benchmarking of the MediMitra framework. Her academic mentorship was vital in shaping the clinical decision support safety protocols and multimodal voice architectures investigated in this research.</p>
+
+      <h2 class="ieee-heading-2">REFERENCES</h2>
+      <p class="reference-item">[1] World Health Organization, <em>The Global Health Workforce Assessment: Progress and Challenges</em>. Geneva, Switzerland: WHO Press, 2022.</p>
+      <p class="reference-item">[2] Ministry of Home Affairs, Government of India, <em>Language: Census of India 2011</em>. Office of the Registrar General &amp; Census Commissioner, New Delhi, India, Tech. Rep., 2018.</p>
+      <p class="reference-item">[3] A. Joshi et al., &quot;The state and fate of linguistic diversity and inclusion in the NLP world,&quot; in <em>Proc. 58th Annu. Meeting Assoc. Comput. Linguistics (ACL)</em>, Jul. 2020, pp. 6282–6293.</p>
+      <p class="reference-item">[4] K. Singhal et al., &quot;Large language models encode clinical knowledge,&quot; <em>Nature</em>, vol. 620, no. 7972, pp. 172–180, Aug. 2023, doi: 10.1038/s41586-023-06291-2.</p>
+      <p class="reference-item">[5] H. N. Lee and P. S. Park, &quot;Evaluating hallucinations and clinical safety in large language model conversational agents,&quot; <em>The Lancet Digital Health</em>, vol. 5, no. 11, pp. e790–e801, Nov. 2023.</p>
+      <p class="reference-item">[6] R. Sharma and V. K. Aggarwal, &quot;Telemedicine adoption in rural South Asia: Overcoming linguistic, cultural, and technological barriers,&quot; <em>IEEE Technology and Society Magazine</em>, vol. 41, no. 2, pp. 45–54, Jun. 2022.</p>
+      <p class="reference-item">[7] E. H. Shortliffe, <em>Computer-Based Medical Consultations: MYCIN</em>. New York, NY, USA: Elsevier/North-Holland, 1976.</p>
+      <p class="reference-item">[8] R. A. Miller, H. E. Pople, and J. D. Myers, &quot;INTERNIST-I, an experimental computer-based diagnostic consultant for general internal medicine,&quot; <em>New England Journal of Medicine</em>, vol. 307, no. 8, pp. 468–476, Aug. 1982.</p>
+      <p class="reference-item">[9] D. Biesner, R. Ramamurthy, and U. Meyer, &quot;Machine learning for healthcare text classification: A comparative evaluation of sparse and dense representations,&quot; in <em>Proc. IEEE Int. Conf. BioInformatics and BioEngineering (BIBE)</em>, 2019, pp. 312–319.</p>
+      <p class="reference-item">[10] Z. Liu, X. Li, and B. Huang, &quot;Supervised intent classification for medical inquiry dialogues using term-frequency and distributional semantic embeddings,&quot; <em>IEEE Access</em>, vol. 8, pp. 142105–142116, 2020, doi: 10.1109/ACCESS.2020.3013890.</p>
+      <p class="reference-item">[11] L. Breiman, &quot;Random Forests,&quot; <em>Machine Learning</em>, vol. 45, no. 1, pp. 5–32, Oct. 2001, doi: 10.1023/A:1010933404324.</p>
+      <p class="reference-item">[12] T. Chen, C. Guestrin, and H. Zhou, &quot;Scalable and interpretable tree ensembles for clinical decision support systems,&quot; <em>IEEE Access</em>, vol. 9, pp. 88310–88322, 2021.</p>
+      <p class="reference-item">[13] A. Vaswani et al., &quot;Attention is all you need,&quot; in <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, vol. 30, Long Beach, CA, USA, Dec. 2017, pp. 5998–6008.</p>
+      <p class="reference-item">[14] J. Lee et al., &quot;BioBERT: A pre-trained biomedical language representation model for biomedical text mining,&quot; <em>Bioinformatics</em>, vol. 36, no. 4, pp. 1234–1240, Feb. 2020, doi: 10.1093/bioinformatics/btz682.</p>
+      <p class="reference-item">[15] E. Alsentzer et al., &quot;Publicly available clinical BERT embeddings,&quot; in <em>Proc. 2nd Clin. Natural Lang. Process. Workshop (ClinicalNLP)</em>, Minneapolis, MN, USA, Jun. 2019, pp. 72–78.</p>
+      <p class="reference-item">[16] K. Singhal et al., &quot;Towards expert-level medical question answering with large language models,&quot; <em>npj Digital Medicine</em>, vol. 6, no. 1, p. 195, Oct. 2023, doi: 10.1038/s41746-023-00925-5.</p>
+      <p class="reference-item">[17] P. Rajpurkar, E. Chen, O. Banerjee, and E. J. Topol, &quot;AI in health and medicine,&quot; <em>Nature Medicine</em>, vol. 28, no. 1, pp. 31–38, Jan. 2022, doi: 10.1038/s41591-021-01614-0.</p>
+      <p class="reference-item">[18] M. W. Roos, S. Patel, and G. H. Tiao, &quot;Evaluation of medical hallucinations and factual errors in frontier conversational foundation models,&quot; <em>IEEE Transactions on Artificial Intelligence</em>, vol. 5, no. 3, pp. 1102–1114, Jun. 2024.</p>
+      <p class="reference-item">[19] P. Bhattacharyya, <em>Machine Translation</em>. Boca Raton, FL, USA: CRC Press, Taylor &amp; Francis Group, 2015.</p>
+      <p class="reference-item">[20] P. Kakwani et al., &quot;IndicNLPSuite: Monolingual corpora, evaluation benchmarks and pre-trained multilingual language models for Indian languages,&quot; in <em>Proc. Findings of the Assoc. Comput. Linguistics (EMNLP)</em>, Nov. 2020, pp. 3501–3514.</p>
+      <p class="reference-item">[21] G. Kumar et al., &quot;IndicTrans: Towards high-quality and accessible neural machine translation for 22 Indian languages,&quot; <em>Transactions of the Association for Computational Linguistics</em>, vol. 10, pp. 864–882, Aug. 2022.</p>
+      <p class="reference-item">[22] S. Y. Lucas, G. M. Boberg, and C. D. Smith, &quot;The role of embodied conversational agents in digital health: A meta-analysis of therapeutic alliance and adherence,&quot; <em>Journal of Medical Internet Research (JMIR)</em>, vol. 25, p. e44102, May 2023, doi: 10.2196/44102.</p>
+      <p class="reference-item">[23] A. van den Oord et al., &quot;WaveNet: A generative model for raw audio,&quot; in <em>Proc. 9th ISCA Speech Synthesis Workshop (SSW9)</em>, Sunnyvale, CA, USA, Sep. 2016, p. 125.</p>
+      <p class="reference-item">[24] C. J. Hutto and E. Gilbert, &quot;VADER: A parsimonious rule-based model for sentiment analysis of social media text,&quot; in <em>Proc. 8th Int. AAAI Conf. Weblogs and Social Media (ICWSM)</em>, Ann Arbor, MI, USA, Jun. 2014, pp. 216–225.</p>
+      <p class="reference-item">[25] J. Haklay and P. Weber, &quot;OpenStreetMap: User-generated street maps,&quot; <em>IEEE Pervasive Computing</em>, vol. 7, no. 4, pp. 12–18, Oct.–Dec. 2008, doi: 10.1109/MPRV.2008.80.</p>
+
+    </div>
+  </div>
+</body>
+</html>

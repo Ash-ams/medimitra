@@ -1,0 +1,52 @@
+{
+  "name": "medimitra-server",
+  "version": "1.0.0",
+  "description": "MediMitra Node.js/Express Backend Server & Orchestration Tier",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "test": "node test_google_tts.js"
+  },
+  "keywords": [
+    "medimitra",
+    "express",
+    "node",
+    "healthcare",
+    "tts",
+    "clinical-triage"
+  ],
+  "authors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "contributors": [
+    "Sheikh Mohammad Ashraf (A266)",
+    "Samarth Srivastava (A255)",
+    "Aadit Doshi (A251)",
+    "Madhav Soni (A265)"
+  ],
+  "author": "Sheikh Mohammad Ashraf (A266)",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^6.4.0",
+    "@google/generative-ai": "^0.24.1",
+    "@huggingface/transformers": "^3.7.6",
+    "@vitalets/google-translate-api": "^9.2.1",
+    "axios": "^1.11.0",
+    "body-parser": "^2.2.0",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "firebase": "^12.0.0",
+    "firebase-admin": "^13.5.0",
+    "mongodb": "^6.20.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^6.9.0",
+    "pdf-parse": "^2.4.5",
+    "torch": "^0.2.7"
+  }
+}
